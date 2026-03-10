@@ -23,7 +23,7 @@ module tb_axi_all_cases;
     axi_if axi(.ACLK(clk), .ARESETn(rstn));
     axi_slave_top dut(.axi(axi.slave));
 
-    // ================= WRITE TASK =================
+    
     task automatic axi_write(
         input [31:0] addr,
         input int beats,
@@ -69,7 +69,7 @@ module tb_axi_all_cases;
         $display("WRITE DONE: Addr=%h, Beats=%0d, ID=%0h", addr, beats, req_id);
     endtask
 
-    // ================= READ TASK =================
+
     task automatic axi_read(
         input [31:0] addr,
         input int beats,
@@ -111,7 +111,7 @@ module tb_axi_all_cases;
         axi.RREADY <= 0;
     endtask
 
-    // ================= MAIN TEST =================
+    
  initial begin
         // Initialize ALL Master signals to clear the red lines
         axi.AWVALID = 0; axi.AWID = 0; axi.AWADDR = 0; axi.AWLEN = 0; axi.AWSIZE = 0; axi.AWBURST = 0;
@@ -128,7 +128,7 @@ module tb_axi_all_cases;
        
 
         $display("---------------------------------------------------------");
-        $display("Starting Full AXI4 Burst Validation Testbench...");
+        $display("Starting Full AXI4 Burst Validation Testbench");
         $display("---------------------------------------------------------");
 
         // Test cases
@@ -140,11 +140,11 @@ module tb_axi_all_cases;
         axi_read (32'h0000_0020, 4, FIXED);
 
         repeat (5) begin
-            // Separate declarations from assignments to fix QuestaSim error
+            
             logic [31:0] rand_addr;
             int rand_beats;
             
-            rand_addr = ($urandom_range(0, 200) << 2); // Word aligned random address
+            rand_addr = ($urandom_range(0, 200) << 2); 
             rand_beats = $urandom_range(1, 8);
             
             axi_write(rand_addr, rand_beats, INCR);
@@ -155,7 +155,7 @@ module tb_axi_all_cases;
 
         $display("---------------------------------------------------------");
         if (error_count == 0)
-            $display(" SUCCESS: ALL TESTS PASSED!");
+            $display(" SUCCESS: ALL TESTS PASSED");
         else
             $display(" FAILURE: TEST FAILED. Errors = %0d", error_count);
         $display("---------------------------------------------------------");
